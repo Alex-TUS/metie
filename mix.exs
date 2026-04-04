@@ -51,7 +51,9 @@ defmodule Metie.MixProject do
       {:bandit, "~> 1.5"},
       {:rustler, "~> 0.37.3", runtime: false},
       {:ecto_sqlite3, "~> 0.22.0"},
-      {:req, "~> 0.5.17"}
+      {:req, "~> 0.5.17"},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test]},
     ]
   end
 
@@ -67,7 +69,15 @@ defmodule Metie.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
+      lint: [
+        "compile --warnings-as-errors",
+        "xref graph --label compile-connected --fail-above 0",
+        "deps.unlock --check-unused",
+        "format --check-formatted",
+        "test --cover",
+        "credo"
+      ]
     ]
   end
 end

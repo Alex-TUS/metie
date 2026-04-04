@@ -1,0 +1,15 @@
+[package]
+name = "metie_nif"
+version = "0.1.0"
+authors = []
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+itertools = "0.14.0"
+jiff = "0.2.23"
+metie = { git = "https://git.sr.ht/~alex-pricinoc/metie", version = "0.1.1" }
+rustler = "0.37.3"
+thiserror = "2.0.18"

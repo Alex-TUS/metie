@@ -14,6 +14,7 @@ defmodule Metie.Application do
       {Phoenix.PubSub, name: Metie.PubSub},
       # Start a worker by calling: Metie.Worker.start_link(arg)
       # {Metie.Worker, arg},
+      {Metie.Client.Worker, Application.fetch_env!(:metie, Client)},
       # Start to serve requests, typically the last entry
       MetieWeb.Endpoint
     ]

@@ -1,4 +1,4 @@
 [workspace]
 resolver = "2"
 
-members = ["native/metie_forecast"]
+members = ["native/metie_nif"]

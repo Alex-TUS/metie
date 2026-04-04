@@ -1,5 +1,5 @@
 defmodule Metie.Repo do
   use Ecto.Repo,
     otp_app: :metie,
-    adapter: Ecto.Adapters.Postgres
+    adapter: Ecto.Adapters.SQLite3
 end

@@ -1,14 +1,16 @@
 import Config
 
 # Configure your database
-config :metie, Metie.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "metie_dev",
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+# config :metie, Metie.Repo,
+#   username: "postgres",
+#   password: "postgres",
+#   hostname: "localhost",
+#   database: "metie_dev",
+#   stacktrace: true,
+#   show_sensitive_data_on_connection_error: true,
+#   pool_size: 10
+
+config :metie, Metie.Repo, database: "metie.db"
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

@@ -45,7 +45,10 @@ defmodule MetieWeb.ForecastControllerTest do
   describe "update forecast" do
     setup [:create_forecast]
 
-    test "renders forecast when data is valid", %{conn: conn, forecast: %Forecast{id: id} = forecast} do
+    test "renders forecast when data is valid", %{
+      conn: conn,
+      forecast: %Forecast{id: id} = forecast
+    } do
       conn = put(conn, ~p"/api/forecasts/#{forecast}", forecast: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

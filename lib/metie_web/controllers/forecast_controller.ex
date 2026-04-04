@@ -7,7 +7,7 @@ defmodule MetieWeb.ForecastController do
   action_fallback MetieWeb.FallbackController
 
   def index(conn, _params) do
-    forecasts = Forecasts.list_forecasts()
+    forecasts = Forecasts.list_recent_forecasts()
     render(conn, :index, forecasts: forecasts)
   end
 

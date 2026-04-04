@@ -49,7 +49,9 @@ defmodule Metie.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      {:rustler, "~> 0.37.3", runtime: false}
+      {:rustler, "~> 0.37.3", runtime: false},
+      {:ecto_sqlite3, "~> 0.22.0"},
+      {:req, "~> 0.5.17"}
     ]
   end
 

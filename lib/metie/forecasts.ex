@@ -21,6 +21,11 @@ defmodule Metie.Forecasts do
     Repo.all(Forecast)
   end
 
+  def list_recent_forecasts do
+    recent_query()
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single forecast.
 
@@ -52,7 +57,10 @@ defmodule Metie.Forecasts do
   def create_forecast(attrs) do
     %Forecast{}
     |> Forecast.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert(
+      on_conflict: {:replace_all_except, [:id, :inserted_at]},
+      conflict_target: [:timestamp, :latitude, :longitude]
+    )
   end
 
   @doc """
@@ -100,5 +108,11 @@ defmodule Metie.Forecasts do
   """
   def change_forecast(%Forecast{} = forecast, attrs \\ %{}) do
     Forecast.changeset(forecast, attrs)
+  end
+
+  defp recent_query do
+    from f in Forecast,
+      order_by: [asc: :timestamp],
+      where: f.timestamp >= from_now(0, "hour") and f.weather_model == :harmonie
   end
 end

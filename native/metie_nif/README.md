@@ -7,7 +7,7 @@
 ## To load the NIF:
 
 ```elixir
-defmodule Metie.Forecast do
+defmodule Metie.Native do
   use Rustler, otp_app: :metie, crate: "metie_forecast"
 
   # When your NIF is loaded, it will override this function.

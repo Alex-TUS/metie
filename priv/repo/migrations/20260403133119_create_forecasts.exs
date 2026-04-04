@@ -7,13 +7,13 @@ defmodule Metie.Repo.Migrations.CreateForecasts do
       add :run_start, :utc_datetime, null: false
       add :run_finish, :utc_datetime, null: false
       add :run_next, :utc_datetime, null: false
-      add :model, :string, null: false
+      add :weather_model, :string, null: false
       add :altitude, :integer, null: false
       add :latitude, :float, null: false
       add :longitude, :float, null: false
       add :temperature, :float, null: false
       add :dewpoint_temperature, :float, null: false
-      add :symbol, :integer, null: false
+      add :weather_symbol, :integer, null: false
       add :wind_direction, :float, null: false
       add :wind_speed, :float, null: false
       add :wind_beaufort, :integer, null: false
@@ -32,5 +32,7 @@ defmodule Metie.Repo.Migrations.CreateForecasts do
 
       timestamps(type: :utc_datetime)
     end
+
+    create unique_index(:forecasts, [:timestamp, :latitude, :longitude])
   end
 end

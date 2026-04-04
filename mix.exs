@@ -11,7 +11,9 @@ defmodule Metie.MixProject do
       aliases: aliases(),
       deps: deps(),
       listeners: [Phoenix.CodeReloader],
-      test_coverage: [ignore_modules: [Metie.Client, Metie.Client.Worker]]
+      test_coverage: [
+        ignore_modules: [Metie.Release, Metie.Native, Metie.Client, Metie.Client.Worker]
+      ]
     ]
   end
 

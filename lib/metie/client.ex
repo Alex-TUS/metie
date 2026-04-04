@@ -1,20 +1,24 @@
 defmodule Metie.Client do
+  @moduledoc """
+  An implementation of a Metie.Client.Behaviour.
+  """
+
   require Logger
 
   @base_url "http://openaccess.pf.api.met.ie/metno-wdb2ts/locationforecast"
 
-  def fetch_forecasts(params) do
+  @behaviour Metie.Client.Behaviour
+
+  @impl true
+  def fetch_forecasts(%{lat: _, long: _} = params) do
     url = build_url(params)
 
-    Logger.debug("Fetching forecasts #{url}")
+    Logger.info("Fetching weather: #{url}")
 
-    {:ok, forecasts} =
-      url
-      |> Req.get!()
-      |> Map.fetch!(:body)
-      |> Metie.Native.parse()
-
-    forecasts
+    case Req.get(url) do
+      {:ok, %{status: 200, body: body}} -> {:ok, body}
+      error -> {:error, "Error fetching weather: #{inspect(error)}"}
+    end
   end
 
   defp build_url(params) do
@@ -27,7 +31,13 @@ defmodule Metie.Client do
 end
 
 defmodule Metie.Client.Worker do
+  @moduledoc false
+
   use GenServer
+
+  require Logger
+
+  @client Application.compile_env(:metie, :client, Metie.Client)
 
   # Client
 
@@ -39,20 +49,40 @@ defmodule Metie.Client.Worker do
 
   @impl true
   def init(opts) do
-    lat = Keyword.get(opts, :lat)
-    long = Keyword.get(opts, :long)
+    lat = Keyword.get(opts, :latitude)
+    long = Keyword.get(opts, :longitude)
 
-    schedule_work(:timer.seconds(5))
+    schedule_work(:timer.seconds(30))
 
     {:ok, %{lat: lat, long: long}}
   end
 
   @impl true
   def handle_info(:work, coords) do
-    coords
-    |> Metie.Client.fetch_forecasts()
-    |> Enum.map(&Map.from_struct/1)
-    |> Enum.map(&Metie.Forecasts.create_forecast/1)
+    insert_all = fn forecasts ->
+      forecasts
+      |> Stream.map(&Map.from_struct/1)
+      |> Stream.map(&Metie.Forecasts.create_forecast/1)
+      |> Enum.split_with(&match?({:error, _}, &1))
+    end
+
+    with {:ok, weather} <- @client.fetch_forecasts(coords),
+         {:ok, forecasts} <- Metie.Native.parse(weather) do
+      {errored, ok} = insert_all.(forecasts)
+
+      Logger.info("inserted: #{length(ok)}")
+
+      errors =
+        Enum.map(errored, fn {:error, changeset} ->
+          MetieWeb.ChangesetJSON.error(%{changeset: changeset})
+        end)
+
+      unless Enum.empty?(errors) do
+        Logger.error("errored: #{inspect(errors)}")
+      end
+    else
+      {:error, error} -> Logger.error("Error fetching forecasts: #{error}")
+    end
 
     schedule_work()
 
@@ -62,4 +92,9 @@ defmodule Metie.Client.Worker do
   defp schedule_work(interval \\ :timer.minutes(30)) do
     Process.send_after(self(), :work, interval)
   end
+end
+
+defmodule Metie.Client.Behaviour do
+  @moduledoc false
+  @callback fetch_forecasts(map()) :: {:ok, binary()} | {:error, binary()}
 end

@@ -30,8 +30,8 @@ config :logger, :default_formatter,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :metie, :location, latitude: 53.178, longitude: -6.819
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
-
-config :metie, Client, lat: 53.178, long: -6.819

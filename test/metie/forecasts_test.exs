@@ -19,6 +19,7 @@ defmodule Metie.ForecastsTest do
       temperature: nil,
       dewpoint_temperature: nil,
       weather_symbol: nil,
+      weather_model: nil,
       wind_direction: nil,
       wind_speed: nil,
       wind_beaufort: nil,
@@ -172,7 +173,11 @@ defmodule Metie.ForecastsTest do
 
     test "update_forecast/2 with invalid data returns error changeset" do
       forecast = forecast_fixture()
-      assert {:error, %Ecto.Changeset{}} = Forecasts.update_forecast(forecast, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{} = changeset} =
+               Forecasts.update_forecast(forecast, @invalid_attrs)
+
+      assert "can't be blank" in errors_on(changeset).weather_model
       assert forecast == Forecasts.get_forecast!(forecast.id)
     end
 

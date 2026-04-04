@@ -1,4 +1,6 @@
 defmodule Metie.Native do
+  @moduledoc false
+
   use Rustler, otp_app: :metie, crate: "metie_nif"
 
   def parse(_binary), do: err()

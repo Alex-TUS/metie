@@ -10,7 +10,8 @@ defmodule Metie.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      listeners: [Phoenix.CodeReloader]
+      listeners: [Phoenix.CodeReloader],
+      test_coverage: [ignore_modules: [Metie.Client, Metie.Client.Worker]]
     ]
   end
 
@@ -54,6 +55,7 @@ defmodule Metie.MixProject do
       {:req, "~> 0.5.17"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test]},
+      {:mox, "~> 1.2", only: :test}
     ]
   end
 

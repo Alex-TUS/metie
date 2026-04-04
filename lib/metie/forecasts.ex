@@ -113,6 +113,6 @@ defmodule Metie.Forecasts do
   defp recent_query do
     from f in Forecast,
       order_by: [asc: :timestamp],
-      where: f.timestamp >= from_now(0, "hour") and f.weather_model == :harmonie
+      where: f.timestamp >= from_now(1, "hour") and f.weather_model == :harmonie
   end
 end

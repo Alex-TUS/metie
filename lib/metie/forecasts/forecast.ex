@@ -35,7 +35,8 @@ defmodule Metie.Forecasts.Forecast do
 
   @doc false
   def changeset(forecast, attrs) do
-    fields = __MODULE__.__schema__(:fields) |> Enum.reject(&(&1 in [:id, :inserted_at, :updated_at]))
+    fields =
+      __MODULE__.__schema__(:fields) |> Enum.reject(&(&1 in [:id, :inserted_at, :updated_at]))
 
     forecast
     |> cast(attrs, fields)

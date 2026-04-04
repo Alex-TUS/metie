@@ -17,6 +17,7 @@ defmodule MetieWeb.ForecastJSON do
 
   defp data(%Forecast{} = forecast) do
     %{
+      id: forecast.id,
       timestamp: forecast.timestamp,
       run_start: forecast.run_start,
       run_finish: forecast.run_finish,

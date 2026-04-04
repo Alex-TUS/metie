@@ -5,12 +5,88 @@ defmodule MetieWeb.ForecastControllerTest do
   alias Metie.Forecasts.Forecast
 
   @create_attrs %{
-    mode: "some mode"
+    timestamp: ~U[2026-04-03 10:30:00Z],
+    run_start: ~U[2026-04-03 10:30:00Z],
+    run_finish: ~U[2026-04-03 10:30:00Z],
+    run_next: ~U[2026-04-03 10:30:00Z],
+    altitude: 42,
+    latitude: 120.5,
+    longitude: 120.5,
+    temperature: 120.5,
+    dewpoint_temperature: 120.5,
+    weather_symbol: 42,
+    wind_direction: 120.5,
+    wind_speed: 120.5,
+    weather_model: :harmonie,
+    wind_beaufort: 42,
+    wind_gust: 120.5,
+    humidity: 120.5,
+    pressure: 120.5,
+    cloudiness: 120.5,
+    low_clouds: 120.5,
+    medium_clouds: 120.5,
+    high_clouds: 120.5,
+    global_radiation: 120.5,
+    precipitation: 120.5,
+    precipitation_min: 120.5,
+    precipitation_max: 120.5,
+    precipitation_probability: 120.5
   }
   @update_attrs %{
-    mode: "some updated mode"
+    timestamp: ~U[2026-04-04 10:30:00Z],
+    run_start: ~U[2026-04-04 10:30:00Z],
+    run_finish: ~U[2026-04-04 10:30:00Z],
+    run_next: ~U[2026-04-04 10:30:00Z],
+    altitude: 43,
+    latitude: 456.7,
+    longitude: 456.7,
+    temperature: 456.7,
+    dewpoint_temperature: 456.7,
+    weather_model: :ecmwf1,
+    weather_symbol: 43,
+    wind_direction: 456.7,
+    wind_speed: 456.7,
+    wind_beaufort: 43,
+    wind_gust: 456.7,
+    humidity: 456.7,
+    pressure: 456.7,
+    cloudiness: 456.7,
+    low_clouds: 456.7,
+    medium_clouds: 456.7,
+    high_clouds: 456.7,
+    global_radiation: 456.7,
+    precipitation: 456.7,
+    precipitation_min: 456.7,
+    precipitation_max: 456.7,
+    precipitation_probability: 456.7
   }
-  @invalid_attrs %{mode: nil}
+  @invalid_attrs %{
+    timestamp: nil,
+    run_start: nil,
+    run_finish: nil,
+    run_next: nil,
+    altitude: nil,
+    latitude: nil,
+    longitude: nil,
+    temperature: nil,
+    dewpoint_temperature: nil,
+    weather_symbol: nil,
+    wind_direction: nil,
+    wind_speed: nil,
+    wind_beaufort: nil,
+    wind_gust: nil,
+    humidity: nil,
+    pressure: nil,
+    cloudiness: nil,
+    low_clouds: nil,
+    medium_clouds: nil,
+    high_clouds: nil,
+    global_radiation: nil,
+    precipitation: nil,
+    precipitation_min: nil,
+    precipitation_max: nil,
+    precipitation_probability: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -32,7 +108,32 @@ defmodule MetieWeb.ForecastControllerTest do
 
       assert %{
                "id" => ^id,
-               "mode" => "some mode"
+               "altitude" => 42,
+               "cloudiness" => 120.5,
+               "dewpoint_temperature" => 120.5,
+               "global_radiation" => 120.5,
+               "high_clouds" => 120.5,
+               "humidity" => 120.5,
+               "latitude" => 120.5,
+               "longitude" => 120.5,
+               "low_clouds" => 120.5,
+               "medium_clouds" => 120.5,
+               "precipitation" => 120.5,
+               "precipitation_max" => 120.5,
+               "precipitation_min" => 120.5,
+               "precipitation_probability" => 120.5,
+               "pressure" => 120.5,
+               "run_finish" => "2026-04-03T10:30:00Z",
+               "run_next" => "2026-04-03T10:30:00Z",
+               "run_start" => "2026-04-03T10:30:00Z",
+               "temperature" => 120.5,
+               "timestamp" => "2026-04-03T10:30:00Z",
+               "weather_model" => "harmonie",
+               "weather_symbol" => 42,
+               "wind_beaufort" => 42,
+               "wind_direction" => 120.5,
+               "wind_gust" => 120.5,
+               "wind_speed" => 120.5
              } = json_response(conn, 200)["data"]
     end
 
@@ -56,7 +157,31 @@ defmodule MetieWeb.ForecastControllerTest do
 
       assert %{
                "id" => ^id,
-               "mode" => "some updated mode"
+               "altitude" => 43,
+               "cloudiness" => 456.7,
+               "dewpoint_temperature" => 456.7,
+               "global_radiation" => 456.7,
+               "high_clouds" => 456.7,
+               "humidity" => 456.7,
+               "latitude" => 456.7,
+               "longitude" => 456.7,
+               "low_clouds" => 456.7,
+               "medium_clouds" => 456.7,
+               "precipitation" => 456.7,
+               "precipitation_max" => 456.7,
+               "precipitation_min" => 456.7,
+               "precipitation_probability" => 456.7,
+               "pressure" => 456.7,
+               "run_finish" => "2026-04-04T10:30:00Z",
+               "run_next" => "2026-04-04T10:30:00Z",
+               "run_start" => "2026-04-04T10:30:00Z",
+               "temperature" => 456.7,
+               "timestamp" => "2026-04-04T10:30:00Z",
+               "weather_symbol" => 43,
+               "wind_beaufort" => 43,
+               "wind_direction" => 456.7,
+               "wind_gust" => 456.7,
+               "wind_speed" => 456.7
              } = json_response(conn, 200)["data"]
     end
 

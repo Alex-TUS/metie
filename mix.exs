@@ -78,6 +78,7 @@ defmodule Metie.MixProject do
         "compile --warnings-as-errors",
         "xref graph --format cycles --label compile-connected --fail-above 0",
         "deps.unlock --check-unused",
+        "deps.audit",
         "format --check-formatted",
         "test --cover",
         "credo"

@@ -10,24 +10,17 @@ start server:
 format:
 	mix format
 
-check: check.deps
-	mix deps.audit
-	mix hex.audit
-	mix lint
-
-
-check.deps:
+lint:
 	mix hex.audit
 	mix hex.outdated
+	mix lint
 
 clean:
 	mix clean
 	mix deps.clean --unlock --unused
 
-deploy: check
+deploy: lint
 	podman build -t docker.io/alexandrupricinoc/metie .
 	podman quadlet install -r metie.container
 	systemctl --user restart metie
 	podman logs -f systemd-metie
-
-.PHONY: test

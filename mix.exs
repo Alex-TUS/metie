@@ -29,7 +29,7 @@ defmodule Metie.MixProject do
 
   def cli do
     [
-      preferred_envs: [precommit: :test]
+      preferred_envs: [precommit: :test, lint: :test]
     ]
   end
 
@@ -76,7 +76,7 @@ defmodule Metie.MixProject do
       precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
       lint: [
         "compile --warnings-as-errors",
-        "xref graph --label compile-connected --fail-above 0",
+        "xref graph --format cycles --label compile-connected --fail-above 0",
         "deps.unlock --check-unused",
         "format --check-formatted",
         "test --cover",

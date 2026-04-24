@@ -7,6 +7,8 @@ defmodule Metie.Application do
 
   @impl true
   def start(_type, _args) do
+    IO.puts(Application.spec(:metie)[:vsn])
+
     children = [
       MetieWeb.Telemetry,
       Metie.Repo,

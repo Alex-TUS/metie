@@ -6,9 +6,10 @@ Environment=PHX_HOST=localhost DATABASE_URL=/app/db/metie.db SECRET_KEY_BASE="+k
 Image=docker.io/alexandrupricinoc/metie:latest
 PublishPort=4000:4000
 Volume=metie:/app/db
+AutoUpdate=registry
 
 [Service]
-Restart=on-failure:1
+Restart=on-failure
 
 [Install]
 WantedBy=default.target

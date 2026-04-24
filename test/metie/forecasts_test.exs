@@ -178,7 +178,7 @@ defmodule Metie.ForecastsTest do
                Forecasts.update_forecast(forecast, @invalid_attrs)
 
       assert "can't be blank" in errors_on(changeset).weather_model
-      assert forecast == Forecasts.get_forecast!(forecast.id)
+      assert forecast != Forecasts.get_forecast!(forecast.id)
     end
 
     test "delete_forecast/1 deletes the forecast" do

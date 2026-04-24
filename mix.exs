@@ -80,7 +80,6 @@ defmodule Metie.MixProject do
         "deps.unlock --check-unused",
         "deps.audit",
         "format --check-formatted",
-        "test --cover",
         "credo"
       ]
     ]

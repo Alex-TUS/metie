@@ -70,5 +70,22 @@ jobs:
       - name: Compile dependencies
         run: mix loadpaths
 
-      - name: Run code quality checks and tests
+      - name: Run code quality checks
         run: mix lint
+
+      - name: Run tests with coverage
+        run: mix test --cover
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          push: true
+          tags: docker.io/alexandrupricinoc/metie:latest
+          cache-from: type=registry,ref=alexandrupricinoc/metie:latest
+          cache-to: type=inline
